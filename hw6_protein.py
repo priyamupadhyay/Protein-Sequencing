@@ -34,7 +34,15 @@ Parameters: str ; int
 Returns: list of strs
 '''
 def dnaToRna(dna, startIndex):
-    return
+    lst= []
+    for i in range(startIndex,len(dna),3):
+        lst.append(dna[i:i+3])
+        if dna[i:i+3]== "TAA" or dna[i:i+3]== "TAG" or dna[i:i+3]== "TGA":
+            break
+    #print(lst)
+    out = [string.replace("T","U") for string in lst]
+    #print(out)
+    return out
 
 
 '''
@@ -45,7 +53,17 @@ Returns: dict mapping strs to strs
 '''
 def makeCodonDictionary(filename):
     import json
-    return
+    f = open('data\codon_table.json')
+    dict = json.load(f)
+    #print(dict)
+    dict1 = {}
+    for key, value in dict.items():
+        for val in value:
+            val = val.replace('T','U')
+            #print(val)
+            dict1[val] = key
+    #print(dict1)
+    return dict1
 
 
 '''
@@ -55,7 +73,18 @@ Parameters: list of strs ; dict mapping strs to strs
 Returns: list of strs
 '''
 def generateProtein(codons, codonD):
-    return
+    #print(codons)
+    #print(codonD)
+    le = len(codons)
+    '''if codons[0] == "AUG" and codons[le] == "UAA":
+        codons[0]'''
+    for key, value in codonD.items():
+            for i in range(0,le):
+                codons[0] = "Start"
+                if key == codons[i]:
+                    codons[i] = value
+    #print(codons)
+    return codons
 
 
 '''
@@ -65,7 +94,23 @@ Parameters: str ; str
 Returns: 2D list of strs
 '''
 def synthesizeProteins(dnaFilename, codonFilename):
-    return
+    count = 0 
+    dna = readFile(dnaFilename) 
+    d = makeCodonDictionary(codonFilename) 
+    lst = []
+    i = 0
+    while i<(len(dna)): 
+        #print(dna[i:i+3])
+        if dna[i:i+3] == 'ATG': 
+            rna = dnaToRna(dna, i) 
+            protein = generateProtein(rna, d)
+            lst.append(protein)
+            i += 3*len(rna)
+        else:
+            i += 1
+            count += 1
+    #print(lst, count) 
+    return lst
 
 
 def runWeek1():
@@ -84,7 +129,21 @@ Parameters: 2D list of strs ; 2D list of strs
 Returns: 2D list of strs
 '''
 def commonProteins(proteinList1, proteinList2):
-    return
+    lst = []
+    len1 = len(proteinList1)
+    len2 = len(proteinList2)
+    if len1 > len2:
+        for i in range(len1):
+            if proteinList1[i] in proteinList2:
+                if proteinList1[i] not in lst:
+                    lst.append(proteinList1[i])
+    if len2 > len1:
+        for i in range(len2):
+            if proteinList2[i] in proteinList1:
+                if proteinList2[i] not in lst:
+                    lst.append(proteinList2[i])
+    #print(lst)
+    return lst
 
 
 '''
@@ -94,7 +153,12 @@ Parameters: 2D list of strs
 Returns: list of strs
 '''
 def combineProteins(proteinList):
-    return
+    lst = []
+    for i in range(len(proteinList)):
+        for j in range(len(proteinList[i])):
+            lst.append(proteinList[i][j])
+    #print(lst)
+    return lst
 
 
 '''
@@ -104,7 +168,13 @@ Parameters: list of strs
 Returns: dict mapping strs to ints
 '''
 def aminoAcidDictionary(aaList):
-    return
+    dict = {}
+    for item in aaList:
+        if (item in dict):
+            dict[item] += 1
+        else:
+            dict[item] = 1
+    return dict
 
 
 '''
@@ -114,7 +184,20 @@ Parameters: 2D list of strs ; 2D list of strs ; float
 Returns: 2D list of values
 '''
 def findAminoAcidDifferences(proteinList1, proteinList2, cutoff):
-    return
+    d = []
+    dict1, dict2 = aminoAcidDictionary(combineProteins(proteinList1)), aminoAcidDictionary(combineProteins(proteinList2))
+    for i,j in dict1.items():
+        dict1[i] = j/len(combineProteins(proteinList1))
+        if i not in dict2:
+            dict2[i] = 0
+    for i,j in dict2.items():
+        dict2[i] = j/len(combineProteins(proteinList2))
+        if i not in dict1:
+            dict1[i] = 0
+        if abs(dict1[i] - dict2[i]) > cutoff:
+            if i != 'Start' and i != 'Stop':
+                d.append([i, dict1[i], dict2[i]])
+    return d
 
 
 '''
@@ -199,6 +282,10 @@ if __name__ == "__main__":
     print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     runWeek1()'''
     test.testReadFile()
+    test.testDnaToRna()
+    test.testMakeCodonDictionary()
+    test.testGenerateProtein()
+    test.testSynthesizeProteins()
 
     ## Uncomment these for Week 2 ##
     
@@ -206,6 +293,10 @@ if __name__ == "__main__":
     test.week2Tests()
     print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
     runWeek2()'''
+    test.testCommonProteins()
+    test.testCombineProteins()
+    test.testAminoAcidDictionary()
+    test.testFindAminoAcidDifferences()
     ## Uncomment these for Week 3 ##
     
     '''print("\n" + "#"*15 + " WEEK 3 TESTS " +  "#" * 16 + "\n")
