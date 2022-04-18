@@ -4,6 +4,7 @@ Name:
 Roll Number:
 """
 
+from tkinter import Label
 import hw6_protein_tests as test
 
 project = "Protein" # don't edit this
@@ -17,7 +18,13 @@ Parameters: str
 Returns: str
 '''
 def readFile(filename):
-    return
+    text = open(filename, "r")
+    out_line = ""
+    for readline in text:
+        line_strip = readline.rstrip('\n')
+        out_line += line_strip
+    #print(len(out_line))
+    return out_line
 
 
 '''
@@ -116,6 +123,7 @@ displayTextResults(commonalities, differences)
 Parameters: 2D list of strs ; 2D list of values
 Returns: None
 '''
+import math
 def displayTextResults(commonalities, differences):
     return
 
@@ -186,23 +194,21 @@ def runFullProgram():
 
 # This code runs the test cases to check your work
 if __name__ == "__main__":
-    print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
+    '''print("\n" + "#"*15 + " WEEK 1 TESTS " +  "#" * 16 + "\n")
     test.week1Tests()
     print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
-    runWeek1()
+    runWeek1()'''
+    test.testReadFile()
 
     ## Uncomment these for Week 2 ##
-    """
-    print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
+    
+    '''print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
     test.week2Tests()
     print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
-    runWeek2()
-    """
-
+    runWeek2()'''
     ## Uncomment these for Week 3 ##
-    """
-    print("\n" + "#"*15 + " WEEK 3 TESTS " +  "#" * 16 + "\n")
+    
+    '''print("\n" + "#"*15 + " WEEK 3 TESTS " +  "#" * 16 + "\n")
     test.week3Tests()
     print("\n" + "#"*15 + " WEEK 3 OUTPUT " + "#" * 15 + "\n")
-    runFullProgram()
-    """
+    runFullProgram()'''
