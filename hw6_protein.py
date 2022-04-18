@@ -304,7 +304,17 @@ Parameters: list of strs ; 2D list of values
 Returns: list of strs
 '''
 def makeEdgeList(labels, biggestDiffs):
-    return
+    ls = []
+    out = []
+    for i in biggestDiffs:
+        ls.append(i[0])
+    for i in labels:
+        if i in ls:
+            out.append("black")
+        else:
+            out.append("white")
+    #print(out)
+    return out
 
 
 '''
@@ -314,6 +324,16 @@ Parameters: no parameters
 Returns: None
 '''
 def runFullProgram():
+    synprotein1 = synthesizeProteins("data/human_p53.txt", "data/codon_table.json")
+    synprotein2 = synthesizeProteins("data/elephant_p53.txt", "data/codon_table.json")
+    comprot = commonProteins(synprotein1, synprotein2)
+    Amdiff = findAminoAcidDifferences(synprotein1, synprotein2, 0.005)
+    disp = displayTextResults(comprot, Amdiff)
+    lab = makeAminoAcidLabels(synprotein1, synprotein2)
+    freq1 = setupChartData(lab, synprotein1)
+    freq2 = setupChartData(lab, synprotein2)
+    edges = makeEdgeList(lab, Amdiff)
+    createChart(lab, freq1, "Human", freq2, "Elephant", edgeList = edges)
     return
 
 
