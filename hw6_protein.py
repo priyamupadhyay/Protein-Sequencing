@@ -94,7 +94,23 @@ Parameters: str ; str
 Returns: 2D list of strs
 '''
 def synthesizeProteins(dnaFilename, codonFilename):
-    return
+    count = 0 
+    dna = readFile(dnaFilename) 
+    d = makeCodonDictionary(codonFilename) 
+    lst = []
+    i = 0
+    while i<(len(dna)): 
+        #print(dna[i:i+3])
+        if dna[i:i+3] == 'ATG': 
+            rna = dnaToRna(dna, i) 
+            protein = generateProtein(rna, d)
+            lst.append(protein)
+            i += 3*len(rna)
+        else:
+            i += 1
+            count += 1
+    #print(lst, count) 
+    return lst
 
 
 def runWeek1():
@@ -231,6 +247,7 @@ if __name__ == "__main__":
     test.testDnaToRna()
     test.testMakeCodonDictionary()
     test.testGenerateProtein()
+    test.testSynthesizeProteins()
 
     ## Uncomment these for Week 2 ##
     
