@@ -208,6 +208,23 @@ Returns: None
 '''
 import math
 def displayTextResults(commonalities, differences):
+    lst = sorted(commonalities)
+    print("The following proteins occurred in both DNA Sequences:")
+    for i in range(len(lst)):
+        for j in range(len(lst[i])):
+            if lst[i][j] == "Start" or lst[i][j] == "Stop":
+                continue
+            print(lst[i][j], end=' ')
+            #lst.append(commonalities[i][j] + ' ')
+        print()
+    #lst.sort()
+    print("The following amino acids occurred at very different rates in the two DNA sequences:")
+    for i in sorted(differences):
+        #print(i[0],": ",math.ceil(i[1]*100)," in Seq1",math.ceil(i[2]*100)," in Seq2")
+        print(i[0],": ",round(i[1]*100, 2),"% in Seq1,",round(i[2]*100, 2),"% in Seq2")
+        #for j in range(len(differences[i])):
+        print()
+    #print(differences)
     return
 
 
@@ -281,22 +298,22 @@ if __name__ == "__main__":
     test.week1Tests()
     print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     runWeek1()'''
-    test.testReadFile()
+    '''test.testReadFile()
     test.testDnaToRna()
     test.testMakeCodonDictionary()
     test.testGenerateProtein()
-    test.testSynthesizeProteins()
+    test.testSynthesizeProteins()'''
 
     ## Uncomment these for Week 2 ##
     
-    '''print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
+    print("\n" + "#"*15 + " WEEK 2 TESTS " +  "#" * 16 + "\n")
     test.week2Tests()
     print("\n" + "#"*15 + " WEEK 2 OUTPUT " + "#" * 15 + "\n")
-    runWeek2()'''
-    test.testCommonProteins()
+    runWeek2()
+    '''test.testCommonProteins()
     test.testCombineProteins()
     test.testAminoAcidDictionary()
-    test.testFindAminoAcidDifferences()
+    test.testFindAminoAcidDifferences()'''
     ## Uncomment these for Week 3 ##
     
     '''print("\n" + "#"*15 + " WEEK 3 TESTS " +  "#" * 16 + "\n")
