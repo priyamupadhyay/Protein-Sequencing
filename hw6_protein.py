@@ -34,7 +34,15 @@ Parameters: str ; int
 Returns: list of strs
 '''
 def dnaToRna(dna, startIndex):
-    return
+    lst= []
+    for i in range(startIndex,len(dna),3):
+        lst.append(dna[i:i+3])
+        if dna[i:i+3]== "TAA" or dna[i:i+3]== "TAG" or dna[i:i+3]== "TGA":
+            break
+    #print(lst)
+    out = [string.replace("T","U") for string in lst]
+    #print(out)
+    return out
 
 
 '''
@@ -45,7 +53,17 @@ Returns: dict mapping strs to strs
 '''
 def makeCodonDictionary(filename):
     import json
-    return
+    f = open('data\codon_table.json')
+    dict = json.load(f)
+    #print(dict)
+    dict1 = {}
+    for key, value in dict.items():
+        for val in value:
+            val = val.replace('T','U')
+            #print(val)
+            dict1[val] = key
+    #print(dict1)
+    return dict1
 
 
 '''
@@ -199,6 +217,8 @@ if __name__ == "__main__":
     print("\n" + "#"*15 + " WEEK 1 OUTPUT " + "#" * 15 + "\n")
     runWeek1()'''
     test.testReadFile()
+    test.testDnaToRna()
+    test.testMakeCodonDictionary()
 
     ## Uncomment these for Week 2 ##
     
